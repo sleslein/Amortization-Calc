@@ -14,3 +14,11 @@ function calcMontlyPayment(principal, rate, payments) {
     return (periodicRate*principal*(Math.pow((1+periodicRate),payments)))/(Math.pow((1+periodicRate),payments)-1);
 }
 
+function calcTotalCost(monthlyPmt, totalPayments) {
+    return monthlyPmt * totalPayments;
+}
+
+function calcTotalInterest(totalCost, principal)
+{
+    return totalCost - principal;
+}
