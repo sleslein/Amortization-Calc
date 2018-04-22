@@ -19,6 +19,35 @@ function getMonthlyPayment(){
 
     // Add grid items for each schedule Item
     // https://www.w3schools.com/js/js_htmldom_nodes.asps
+    var grid = document.getElementById("grdSchedule");
+
+    function formatDollars(val) {
+        return "$" + val.toFixed(2);
+    }
+
+    function addScheduleItem(item) {
+        var newRow = document.createElement("div");
+        newRow.className = "row";
+
+        var newPCol = document.createElement("div");
+        newPCol.className ="col-md-1";
+        newPCol.innerText = formatDollars(item.principal);
+        newRow.appendChild(newPCol);
+
+        var newICol = document.createElement("div");
+        newICol.className ="col-md-1";
+        newICol.innerText = formatDollars(item.interest);
+        newRow.appendChild(newICol);
+
+        var newBCol = document.createElement("div");
+        newBCol.className ="col-md-1";
+        newBCol.innerText = formatDollars(item.balance);
+        newRow.appendChild(newBCol);
+
+        grid.appendChild(newRow);
+    }
+
+    scheduleItems.forEach(addScheduleItem);
 }
 
 document.getElementById("btnCalculate").addEventListener("click", getMonthlyPayment);

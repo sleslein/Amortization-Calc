@@ -19,7 +19,7 @@ function calcTotalInterest(totalCost, principal) {
 }
 
 function calcMonthyInfo (payment, principle, interestPercent) {
-    var i = interestPercent * payment; // total toward interest
+    var i = interestPercent * principle; // total toward interest
     var p = payment - i; //total toward principle
 
     return {
