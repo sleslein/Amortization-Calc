@@ -1,11 +1,18 @@
-    var currencyFormatter = new Intl.NumberFormat('en-US', {
+var currencyFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2,
         // the default value for minimumFractionDigits depends on the currency
         // and is usually already 2
       });
+
 function getMonthlyPayment(){
+    // Clear old data from screen.
+    var grid = document.getElementById("grdSchedule");
+    while(grid.firstChild){
+        grid.removeChild(grid.firstChild);
+    }
+
     // Get Inputs
     var loanAmount = document.getElementById("txtLoanAmount").value;
     var interestRate = document.getElementById("txtInterestRate").value;
@@ -25,30 +32,46 @@ function getMonthlyPayment(){
 
     // Add grid items for each schedule Item
     // https://www.w3schools.com/js/js_htmldom_nodes.asps
-    var grid = document.getElementById("grdSchedule");
 
-    function addScheduleItem(item) {
-        var newRow = document.createElement("div");
-        newRow.className = "row";
-
+    function createCell(val) {
         var newPCol = document.createElement("div");
         newPCol.className ="col-md-1";
-        newPCol.innerText = currencyFormatter.format(item.principal);
+        newPCol.innerText = val;
+        return newPCol;
+    }
+
+    function createRow() {
+        var newRow = document.createElement("div");
+        newRow.className = "row";
+        return newRow;
+    }
+
+    function addScheduleItem(item) {
+        var newRow = createRow();
+
+        var newPCol = createCell(currencyFormatter.format(item.principal));
         newRow.appendChild(newPCol);
 
-        var newICol = document.createElement("div");
-        newICol.className ="col-md-1";
-        newICol.innerText = currencyFormatter.format(item.interest);
+        var newICol = createCell(currencyFormatter.format(item.interest));
         newRow.appendChild(newICol);
 
-        var newBCol = document.createElement("div");
-        newBCol.className ="col-md-1";
-        newBCol.innerText = currencyFormatter.format(item.balance);
+        var newBCol =  createCell(currencyFormatter.format(item.balance));
         newRow.appendChild(newBCol);
 
         grid.appendChild(newRow);
     }
 
+    function addHeaderRow() {
+        var newRow = createRow();
+
+        newRow.appendChild(createCell("Principle"));
+        newRow.appendChild(createCell("Interest"));
+        newRow.appendChild(createCell("Balance"));
+
+        grid.appendChild(newRow);
+    }
+
+    addHeaderRow();
     scheduleItems.forEach(addScheduleItem);
 }
 
